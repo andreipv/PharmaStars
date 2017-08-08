@@ -49,12 +49,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\201708081215564_AddedPrice.cs" />
+    <Compile Include="Migrations\201708081215564_AddedPrice.Designer.cs">
+      <DependentUpon>201708081215564_AddedPrice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Category.cs" />
+    <Compile Include="DBModel.cs" />
+    <Compile Include="Model\Manufacturer.cs" />
+    <Compile Include="Migrations\201708081140295_InitialMigration.cs" />
+    <Compile Include="Migrations\201708081140295_InitialMigration.Designer.cs">
+      <DependentUpon>201708081140295_InitialMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Model\ProdCateg_Assoc.cs" />
+    <Compile Include="Model\Product.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201708081140295_InitialMigration.resx">
+      <DependentUpon>201708081140295_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708081215564_AddedPrice.resx">
+      <DependentUpon>201708081215564_AddedPrice.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

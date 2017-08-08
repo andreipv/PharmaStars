@@ -1,0 +1,13 @@
+C:\Users\dgherghel\Desktop\PharmaStars\DAL\bin\Debug\DAL.exe.config
+C:\Users\dgherghel\Desktop\PharmaStars\DAL\bin\Debug\DAL.exe
+C:\Users\dgherghel\Desktop\PharmaStars\DAL\bin\Debug\DAL.pdb
+C:\Users\dgherghel\Desktop\PharmaStars\DAL\bin\Debug\EntityFramework.dll
+C:\Users\dgherghel\Desktop\PharmaStars\DAL\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\dgherghel\Desktop\PharmaStars\DAL\bin\Debug\EntityFramework.xml
+C:\Users\dgherghel\Desktop\PharmaStars\DAL\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\dgherghel\Desktop\PharmaStars\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
+C:\Users\dgherghel\Desktop\PharmaStars\DAL\obj\Debug\DAL.exe
+C:\Users\dgherghel\Desktop\PharmaStars\DAL\obj\Debug\DAL.pdb
+C:\Users\dgherghel\Desktop\PharmaStars\DAL\obj\Debug\DAL.Migrations.InitialMigration.resources
+C:\Users\dgherghel\Desktop\PharmaStars\DAL\obj\Debug\DAL.csproj.GenerateResource.Cache
+C:\Users\dgherghel\Desktop\PharmaStars\DAL\obj\Debug\DAL.Migrations.AddedPrice.resources
