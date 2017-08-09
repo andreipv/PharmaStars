@@ -66,6 +66,7 @@ namespace DAL.Repositories
             }
         }
 
+
         public IQueryable<Product> GetAll()
         {
             using (DBModel db = new DBModel())
