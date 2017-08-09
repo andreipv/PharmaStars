@@ -7,9 +7,9 @@ using WebApi.Models;
 
 namespace WebApi.Mapping
 {
-    public class ProductMapper
+    public static class ProductMapper
     {
-        public Product ModelToEntity(ProductsModel productModel)
+        public static Product ModelToEntity(ProductsModel productModel)
         {
             Product product = new Product();
 
@@ -24,7 +24,7 @@ namespace WebApi.Mapping
             return product;
         }
 
-        public ProductsModel EntityToModel(Product product)
+        public static ProductsModel EntityToModel(Product product)
         {
             ProductsModel model = new ProductsModel();
 
@@ -37,7 +37,6 @@ namespace WebApi.Mapping
             model.Description = product.Description;
 
             return model;
-
         }
     }
 }
