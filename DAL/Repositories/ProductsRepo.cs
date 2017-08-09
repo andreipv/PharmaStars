@@ -8,6 +8,13 @@ namespace DAL.Repositories
 {
     public class ProductsRepo : IRepository<Product>
     {
+        private DBModel db;
+
+        public ProductsRepo(DBModel db)
+        {
+            this.db = db;
+        }
+
         public Product Get(int id)
         {
             using (DBModel db = new DBModel())
@@ -65,7 +72,6 @@ namespace DAL.Repositories
                 return findProduct;
             }
         }
-
 
         public IQueryable<Product> GetAll()
         {
