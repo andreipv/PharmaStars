@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
-    class CategoriesRepository : IRepository<Category>
+    public class CategoriesRepository : IRepository<Category>
     {
         private DBModel db;
 
