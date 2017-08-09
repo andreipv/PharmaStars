@@ -8,6 +8,12 @@ namespace DAL.Repositories
 {
     class CategoriesRepository : IRepository<Category>
     {
+        private DBModel db;
+
+        public CategoriesRepository(DBModel db)
+        {
+            this.db = db;
+        }
 
         public Category Get(int ID)
         {
