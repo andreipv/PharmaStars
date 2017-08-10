@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Products";
 }
+
 <br />
 <div class="container">
     <div class="row">
@@ -10,8 +11,8 @@
             <div class="form-group">
                 @foreach (var category in ViewBag.Categories)
                 {
-                    <label class="checkbox" for=@category.Name>
-                        <input type="checkbox" id=@category.ID />
+                    <label class="checkbox" for="cat+@category.Name">
+                        <input type="checkbox" id="cat+@category.Name" />
                                @category.Name
                     </label>
                 }
@@ -21,8 +22,8 @@
             <div class="form-group">
                 @foreach (var manufacturer in ViewBag.Manufacturers)
                 {
-                    <label class="checkbox" for=@manufacturer.Name>
-                        <input type="checkbox" id=@manufacturer.ID />
+                    <label class="checkbox" for="man+@manufacturer.ID">
+                        <input type="checkbox" id="man+@manufacturer.ID" />
                         @manufacturer.Name
                     </label>
                 }
@@ -43,7 +44,6 @@
                         <div class="panel-footer">
                             <b>Price:</b> @product.Price <br />
                             <b>Manufacturer:</b> @product.Manufacturer <br />
-                            <b>Categories:</b> @foreach (var category in product.Categories) { @category }
                         </div>
                     </div>
                 </div>
