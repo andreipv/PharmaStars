@@ -44,7 +44,13 @@ namespace WebApi.Controllers
                 {
                     try
                     {
-                        return this.Ok(uow.ProductsRepo.GetAll());
+                        var entities = uow.ProductsRepo.GetAll();
+                        List<SimpleProductModel> models = new List<SimpleProductModel>();
+                        foreach(var entity in entities)
+                        {
+                            models.Add(ProductMapper.EntityToSimpleModel(entity));
+                        }
+                        return this.Ok(models);
                     }catch(Exception e)
                     {
                         return this.BadRequest(e.ToString());

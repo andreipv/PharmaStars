@@ -12,97 +12,98 @@ namespace WebApi.Controllers
 {
     
     public class CategoriesController : ApiController
-    { 
-    public IHttpActionResult Get()
     {
-        try
+        [HttpGet]
+        public IHttpActionResult Get()
         {
-            using(var uow = new UnitOfWork())
+            try
             {
-                List<CategoriesModel> models = new List<CategoriesModel>();
-                var entities = uow.CategoriesRepo.GetAll();
-                foreach(var entity in entities)
+                using(var uow = new UnitOfWork())
                 {
-                    var model = CategoriesMapper.EntityToModel(entity);
-                    models.Add(model);
+                    List<CategoriesModel> models = new List<CategoriesModel>();
+                    var entities = uow.CategoriesRepo.GetAll();
+                    foreach(var entity in entities)
+                    {
+                        var model = CategoriesMapper.EntityToModel(entity);
+                        models.Add(model);
+                    }
+                    return this.Ok(models);
                 }
-                return this.Ok(models);
-            }
            
+            }
+            catch (Exception ex)
+            {
+                //to do log this
+                return this.InternalServerError(ex);
+            }
         }
-        catch (Exception ex)
-        {
-            //to do log this
-            return this.InternalServerError();
-        }
-    }
 
-    [HttpGet]
-    public IHttpActionResult Get(int id)
-    {
-        try
+        [HttpGet]
+        public IHttpActionResult Get(int id)
         {
-                using (var uow = new UnitOfWork())
-                {
-                    var cat = uow.CategoriesRepo.Get(id);
+            try
+            {
+                    using (var uow = new UnitOfWork())
+                    {
+                        var cat = uow.CategoriesRepo.Get(id);
                     
-                    if (cat == null)
-                    {
-                        return this.NotFound();
-                    }
+                        if (cat == null)
+                        {
+                            return this.NotFound();
+                        }
 
-                    return this.Ok(CategoriesMapper.EntityToModel(cat));
-                }
-        }
-        catch (Exception ex)
-        {
-            //to do log this
-            return this.InternalServerError();
-        }
-    }
-
-    [HttpPost]
-    public IHttpActionResult Post([FromBody] CategoriesModel category)
-    {
-            try
-            {
-                using (var uow = new UnitOfWork())
-                {
-                    try
-                    {
-                        uow.CategoriesRepo.Add(CategoriesMapper.ModelToEntity(category));
-                        return this.Ok(CategoriesMapper.ModelToEntity(category));
+                        return this.Ok(CategoriesMapper.EntityToModel(cat));
                     }
-                    catch (Exception e)
-                    {
-                        return this.BadRequest(e.ToString());
-                    }
-                }
             }
             catch (Exception ex)
             {
                 //to do log this
-                return this.InternalServerError();
+                return this.InternalServerError(ex);
             }
-    }
+        }
 
-    [HttpPut]
-    public IHttpActionResult Put(int id, CategoriesModel model)
+        [HttpPost]
+        public IHttpActionResult Post([FromBody] CategoriesModel category)
         {
-            try
-            {
-                using (var uow = new UnitOfWork())
+                try
                 {
-                    return this.Ok(uow.CategoriesRepo.Update(id, CategoriesMapper.ModelToEntity(model)));
+                    using (var uow = new UnitOfWork())
+                    {
+                        try
+                        {
+                            uow.CategoriesRepo.Add(CategoriesMapper.ModelToEntity(category));
+                            return this.Ok(CategoriesMapper.ModelToEntity(category));
+                        }
+                        catch (Exception e)
+                        {
+                            return this.BadRequest(e.ToString());
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //to do log this
+                    return this.InternalServerError(ex);
+                }
+        }
+
+        [HttpPut]
+        public IHttpActionResult Put(int id, CategoriesModel model)
+            {
+                try
+                {
+                    using (var uow = new UnitOfWork())
+                    {
+                        return this.Ok(uow.CategoriesRepo.Update(id, CategoriesMapper.ModelToEntity(model)));
                   
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //to do log this
+                    return this.InternalServerError(ex);
                 }
             }
-            catch (Exception ex)
-            {
-                //to do log this
-                return this.InternalServerError();
-            }
-        }
 
         [HttpDelete]
         public IHttpActionResult Delete(CategoriesModel model)
