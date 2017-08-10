@@ -67,5 +67,28 @@ namespace MVC.Services
                 }
             }
         }
+
+        public async Task ForgotPassword(ForgotPasswordModel model)
+        {
+            using (HttpClient httpClient = new HttpClient())
+            {
+                HttpRequestMessage request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Post,
+                    RequestUri = new Uri(accountUri + "/ForgotPassword"),
+                    Content = new StringContent(
+                        string.Format("email={0}", model.Email)
+                    )
+                };
+                request.Content.Headers.ContentType = new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded") { CharSet = "UTF-8" };
+
+                var result = await httpClient.SendAsync(request);
+
+                if (!result.IsSuccessStatusCode)
+                {
+                    throw new Exception("Something went wrong");
+                }
+            }
+        }
     }
 }

@@ -342,6 +342,46 @@ namespace WebApi.Controllers
             return Ok();
         }
 
+        [Route("ResetPassword", Name = "ResetPassword")]
+        public async Task<IHttpActionResult> ResetPassword(string id, string code)
+        {
+            return Ok();
+        }
+
+        [AllowAnonymous]
+        [Route("ForgotPassword")]
+        public async Task<IHttpActionResult> ForgotPassword([FromBody]ForgotPasswordBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var user = await UserManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                {
+                    return BadRequest(ModelState);
+                }
+                //if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                //{
+                //    return BadRequest(ModelState);
+                //}
+                var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Route("ResetPassword", new { id = user.Id, code = code });
+                await UserManager.SendEmailAsync(user.Id, "Reset Password",
+                    "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">link</a>");
+
+                return Ok();
+            } 
+            catch(Exception e)
+            {
+                return InternalServerError(e);
+            }
+            
+        }
+
         // POST api/Account/RegisterExternal
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]

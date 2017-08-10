@@ -58,5 +58,33 @@ namespace MVC.Controllers
 
             return RedirectToAction("Register");
         }
+
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [ActionName("ForgotPassword"), HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ForgotPasswordPost(ForgotPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    AuthenticationService service = new AuthenticationService();
+                    await service.ForgotPassword(model);
+
+                    return RedirectToAction("Login");
+                }
+                catch (Exception)
+                {
+                    return RedirectToAction("ForgotPassword");
+                }
+
+            }
+
+            return RedirectToAction("ForgotPassword");
+        }
     }
 }
