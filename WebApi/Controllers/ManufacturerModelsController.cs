@@ -132,13 +132,22 @@ namespace WebApi.Controllers
                 {
                     try
                     {
+                        if (ModelState.IsValid)
+                        { 
                         var m = repo.ManufacturerRepo.Get(id);
                         repo.ManufacturerRepo.Delete(m);
-                        return Ok();
+                       return this.StatusCode(HttpStatusCode.NoContent);
+                        }
+                        else return this.BadRequest();
+
                     }
-                    catch
+                    catch (KeyNotFoundException e)
                     {
-                        return BadRequest();
+                        return this.BadRequest(e.ToString());
+                    }
+                    catch (Exception e)
+                    {
+                        return this.BadRequest(e.ToString());
                     }
 
 
