@@ -41,5 +41,22 @@ namespace WebApi.Mapping
             };
             return model;
         }
+
+        public static SimpleProductModel EntityToSimpleModel(Product product)
+        {
+            SimpleProductModel model = new SimpleProductModel()
+            {
+                Id = product.ID,
+                Name = product.Name,
+                Manufacturer = product.Manufacturer.Name,
+                Price = product.Price
+            };
+            model.Categories = new List<string>();
+            foreach(var cat in product.Categories)
+            {
+                model.Categories.Add(cat.Name);
+            }
+            return model;
+        }
     }
 }

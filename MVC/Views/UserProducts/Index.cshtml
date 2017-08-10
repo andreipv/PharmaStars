@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "Products";
+}
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <h4>Categories</h4>
+            <div class="form-group">
+                @foreach (var category in ViewBag.Categories)
+                {
+                    <label class="checkbox" for=@category.Name>
+                        <input type="checkbox" id=@category.ID />
+                               @category.Name
+                    </label>
+                }
+            </div>
+
+            <h4>Manufacturers</h4>
+            <div class="form-group">
+                @foreach (var manufacturer in ViewBag.Manufacturers)
+                {
+                    <label class="checkbox" for=@manufacturer.Name>
+                        <input type="checkbox" id=@manufacturer.ID />
+                        @manufacturer.Name
+                    </label>
+                }
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            @foreach (var product in ViewBag.Products)
+            {
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@product.Name</h3>
+                        </div>
+                        <div class="panel-body fixed-panel">
+                            //future: imagine
+                        </div>
+                        <div class="panel-footer">
+                            <b>Price:</b> @product.Price <br />
+                            <b>Manufacturer:</b> @product.Manufacturer <br />
+                            <b>Categories:</b> @foreach (var category in product.Categories) { @category }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
