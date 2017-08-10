@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace DAL.Repositories
 {
     public class ManufacturerRepository:IRepository<Manufacturer>
@@ -45,7 +46,7 @@ namespace DAL.Repositories
         {
             
                 db.Manufacturers.Remove(manufacturer);
-                db.Entry(manufacturer).State = System.Data.Entity.EntityState.Modified;
+                
                 db.SaveChanges();
 
                 return manufacturer;
@@ -56,7 +57,10 @@ namespace DAL.Repositories
         {
             
                 Manufacturer findManufacturer = db.Manufacturers.Find(id);
-
+                if (findManufacturer == null)
+                {
+                throw new KeyNotFoundException();
+                }
                 findManufacturer.Name = manufacturer.Name;
                 findManufacturer.Adress = manufacturer.Adress;
                 
