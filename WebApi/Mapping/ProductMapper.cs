@@ -4,38 +4,41 @@ using System.Linq;
 using System.Web;
 using DAL;
 using WebApi.Models;
+using DAL.Repositories;
 
 namespace WebApi.Mapping
 {
     public static class ProductMapper
     {
+        
         public static Product ModelToEntity(ProductsModel productModel)
         {
-            Product product = new Product();
-
-            product.ID = productModel.Id;
-            product.Name = productModel.Name;
-            product.Manufacturer = productModel.Manufacturer;
-            product.Quantity = productModel.Quantity;
-            product.Price = productModel.Price;
-            product.Description = productModel.Description;
-            product.Categories = productModel.Categories;
-
+            UnitOfWork uow = new UnitOfWork();
+            Product product = new Product()
+            {
+                ID = productModel.Id,
+                Name = productModel.Name,
+                Manufacturer = productModel.Manufacturer,
+                Quantity = productModel.Quantity,
+                Price = productModel.Price,
+                Description = productModel.Description,
+                Categories = productModel.Categories
+            };
             return product;
         }
 
         public static ProductsModel EntityToModel(Product product)
         {
-            ProductsModel model = new ProductsModel();
-
-            model.Id = product.ID;
-            model.Name = product.Name;
-            model.Manufacturer = product.Manufacturer;
-            model.Price = product.Price;
-            model.Quantity = product.Quantity;
-            model.Categories = product.Categories;
-            model.Description = product.Description;
-
+            ProductsModel model = new ProductsModel()
+            {
+                Id = product.ID,
+                Name = product.Name,
+                Manufacturer = product.Manufacturer,
+                Price = product.Price,
+                Quantity = product.Quantity,
+                Categories = product.Categories,
+                Description = product.Description
+            };
             return model;
         }
     }
