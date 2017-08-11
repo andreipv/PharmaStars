@@ -55,6 +55,23 @@ namespace WebApi.Controllers
         {
             var list = new List<ProductsModel>();
             using(var uow = new UnitOfWork())
+                using(var uow = new UnitOfWork())
+                {
+                    try
+                    {
+                        var entities = uow.ProductsRepo.GetAll();
+                        List<SimpleProductModel> models = new List<SimpleProductModel>();
+                        foreach(var entity in entities)
+                        {
+                            models.Add(ProductMapper.EntityToSimpleModel(entity));
+                        }
+                        return this.Ok(models);
+                    }catch(Exception e)
+                    {
+                        return this.BadRequest(e.ToString());
+                    }
+                }
+            }catch(Exception e)
             {
                 foreach (var m in uow.ProductsRepo.GetAll(minPrice, maxPrice))
                     list.Add(ProductMapper.EntityToModel(m));
