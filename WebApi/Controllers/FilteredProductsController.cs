@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using WebApi.DecoratorFilter;
 using WebApi.Mapping;
 using WebApi.Models;
@@ -14,6 +15,7 @@ namespace WebApi.Controllers
     public class FilteredProductsController : ApiController
     {
         [AllowAnonymous]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult Post([FromBody] FilterModel model)
         {
             try
@@ -22,14 +24,13 @@ namespace WebApi.Controllers
                 {
                     try
                     {
-                        var entities = uow.ProductsRepo.GetAll();
-                        List<SimpleProductModel> models = new List<SimpleProductModel>();
-                        foreach (var entity in entities)
+                        IProducts filteredProducts = new Products();
+
+                        if (model == null)
                         {
-                            models.Add(ProductMapper.EntityToSimpleModel(entity));
+                            return Ok(filteredProducts.Filter(null));
                         }
 
-                        Products filteredProducts = new Products();
                         if (model.CategoryFilters != null)
                         {
                             filteredProducts = new CategoryFilter(filteredProducts);
