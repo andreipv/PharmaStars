@@ -12,7 +12,6 @@ namespace WebApi.DecoratorFilter
 {
     public class Products : IProducts
     {
-        public ICollection<SimpleProductModel> FilteredProducts { get; set; }
 
         public Products()
         {
@@ -29,16 +28,9 @@ namespace WebApi.DecoratorFilter
             }
         }
 
-        public virtual ICollection<SimpleProductModel> Filter(ICollection<string> param)
+        public override ICollection<SimpleProductModel> Filter(ICollection<string> param)
         {
-            using (var uow = new UnitOfWork())
-            {
-
-                foreach (Product prod in uow.ProductsRepo.GetAll())
-                    FilteredProducts.Add(ProductMapper.EntityToSimpleModel(prod));
-
-                return FilteredProducts;
-            }
+            return FilteredProducts;
         }
     }
 }

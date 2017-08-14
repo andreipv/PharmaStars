@@ -4,9 +4,10 @@ using WebApi.Models;
 
 namespace WebApi.DecoratorFilter
 {
-    public interface IProducts 
+    public abstract class IProducts 
     {
-        ICollection<SimpleProductModel> FilteredProducts { get; set; }
-        ICollection<SimpleProductModel> Filter(ICollection<string> param);
+        public ICollection<SimpleProductModel> FilteredProducts { get; set; }
+
+        public abstract ICollection<SimpleProductModel> Filter(ICollection<string> param);
     }
 }

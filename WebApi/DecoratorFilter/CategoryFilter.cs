@@ -16,7 +16,7 @@ namespace WebApi.DecoratorFilter
             List<SimpleProductModel> categProd = new List<SimpleProductModel>();
             if (param == null) return FilteredProducts;
 
-            foreach (SimpleProductModel prod in base.FilteredProducts)
+            foreach (SimpleProductModel prod in FilteredProducts)
                 foreach (String category in prod.Categories)
                     foreach(String par in param)
                         if (category.CompareTo(par) == 0)

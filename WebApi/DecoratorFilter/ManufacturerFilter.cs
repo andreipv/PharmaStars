@@ -18,7 +18,7 @@ namespace WebApi.DecoratorFilter
             if (param == null) return FilteredProducts;
 
             foreach (SimpleProductModel prod in FilteredProducts)
-                foreach(String manufacturer in param)
+                foreach (String manufacturer in param)
                     if (prod.Manufacturer.CompareTo(manufacturer) == 0)
                         manProd.Add(prod);
 

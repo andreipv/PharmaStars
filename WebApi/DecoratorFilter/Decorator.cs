@@ -7,18 +7,19 @@ using WebApi.Models;
 
 namespace WebApi.DecoratorFilter
 {
-    public class Decorator : Products
+    public abstract class Decorator : IProducts
     {
-        public IProducts products;
+        protected IProducts products;
 
         public Decorator(IProducts prod)
         {
-            this.products = prod;
+            products = prod;
+            this.FilteredProducts = prod.FilteredProducts;
         }
 
         public override ICollection<SimpleProductModel> Filter(ICollection<string> param)
         {
-            return base.Filter(param);
+            return products.Filter(param);
         }
     }
 }
