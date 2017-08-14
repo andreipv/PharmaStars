@@ -3,27 +3,39 @@
     ViewBag.Title = "Products";
 }
 
+<script type='text/javascript'>
+    $('#catSilueta').click(function () {
+         alert("dsadsa");
+    });
+
+    function getProducts() {
+        alert("some");
+    }
+</script>
+
 <br />
 <div class="container">
     <div class="row">
         <div class="col-md-3">
             <h4>Categories</h4>
             <div class="form-group">
-                @foreach (var category in ViewBag.Categories)
-                {
-                    <label class="checkbox" for="cat+@category.Name">
-                        <input type="checkbox" id="cat+@category.Name" />
-                               @category.Name
-                    </label>
-                }
+                <form id="myForm">
+                    @foreach (var category in ViewBag.Categories)
+                    {
+                        <label class="checkbox" for="cat+@category.Name">
+                            <input type="checkbox" id="cat+@category.Name" onclick="getProducts()"/>
+                            @category.Name
+                        </label>
+                    }
+                </form>
             </div>
 
             <h4>Manufacturers</h4>
             <div class="form-group">
                 @foreach (var manufacturer in ViewBag.Manufacturers)
                 {
-                    <label class="checkbox" for="man+@manufacturer.ID">
-                        <input type="checkbox" id="man+@manufacturer.ID" />
+                    <label class="checkbox" for="man+@manufacturer.ID" >
+                        <input type="checkbox" id="man+@manufacturer.ID" onclick="getProducts()"/>
                         @manufacturer.Name
                     </label>
                 }
