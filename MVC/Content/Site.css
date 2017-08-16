@@ -1,9 +1,4 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-}
-
-/* Set padding to keep content from hitting the edges */
+﻿/* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
@@ -22,3 +17,38 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.formError {
+    color: red;
+}
+
+body {
+    font-family: 'Archivo Narrow', sans-serif;
+    font-size: 14px;
+}
+
+.navbar.navbar-default {
+    background: #fff;
+    border: 0;
+    box-shadow: 0 0 2px rgba(0,0,0,.4);
+    border-radius: 0;
+    margin-bottom: 0;
+}
+
+.navbar.navbar-default .header-nav {
+    width: 100%;
+    padding: 0;
+}
+
+.navbar.navbar-default .header-nav a {
+    font-family: 'Archivo Narrow', sans-serif;
+    text-align: center;
+    text-transform: uppercase;
+    padding-top: 0px;
+}
+
+.navbar.navbar-default .header-nav .logo a {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 30px;
+    color: #6DBDEB;
+}   
