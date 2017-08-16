@@ -10,6 +10,8 @@ namespace DAL.Repositories
     {
         private DBModel db = new DBModel();
         private ProductsRepo productsRepo;
+        private ManufacturerRepository manufacturerRepo;
+        private CategoriesRepository categoriesRepo;
         
         public ProductsRepo ProductsRepo
         {
@@ -18,6 +20,26 @@ namespace DAL.Repositories
                 if (this.productsRepo == null)
                     this.productsRepo = new ProductsRepo(db);
                 return productsRepo;
+            }
+        }
+
+        public ManufacturerRepository ManufacturerRepo
+        {
+            get
+            {
+                if (this.manufacturerRepo == null)
+                    this.manufacturerRepo = new ManufacturerRepository(db);
+                return manufacturerRepo;
+            }
+        }
+
+        public CategoriesRepository CategoriesRepo
+        {
+            get
+            {
+                if (this.categoriesRepo == null)
+                    this.categoriesRepo = new CategoriesRepository(db);
+                return categoriesRepo;
             }
         }
 

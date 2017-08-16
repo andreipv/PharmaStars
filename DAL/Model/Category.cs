@@ -11,7 +11,7 @@ namespace DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Category()
         {
-            ProdCateg_Assoc = new HashSet<ProdCateg_Assoc>();
+            Products = new HashSet<Product>();
         }
 
         public int ID { get; set; }
@@ -20,6 +20,6 @@ namespace DAL
         public string Name { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProdCateg_Assoc> ProdCateg_Assoc { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }
