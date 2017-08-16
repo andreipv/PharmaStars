@@ -38,7 +38,7 @@
                     + "<h3 class='panel-title'>" + value.Name + "</h3>"
                     + "</div>"
                     + "<div class='panel-body fixed-panel'>"
-                    + "//future: imagine"
+                    + "<img style= 'width:100%' src= 'http://localhost:51306/api/Images/" + value.Id + "'>"
                     + "</div>"
                     + "<div class='panel-footer'>"
                     + "<b>Price:</b>" + value.Price + "<br />"
