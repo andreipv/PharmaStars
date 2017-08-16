@@ -21,7 +21,7 @@ namespace MVC
             var container = new UnityContainer();
 
             container.RegisterType<IAuthenticationService, AuthenticationService>();
-            container.RegisterType<IService<SimpleProductModel>, ProductsService>();
+            container.RegisterType<IProductService, ProductsService>();
             container.RegisterType<IService<ManufacturerModel>, ManufacturerService>();
             container.RegisterType<IService<CategoryModel>, CategoriesService>();
 

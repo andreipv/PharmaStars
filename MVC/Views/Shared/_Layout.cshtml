@@ -51,6 +51,13 @@
                     <li class="col-md-offset-1 col-md-3 logo">
                         <a href="@Url.Action("Index", "UserProducts")">PharmaStar</a>
                     </li>
+                    <li><div id="search-form">@using (Html.BeginForm())
+                            {
+                                @Html.TextBox("SearchString")
+                                <input class="btn-info" type="submit" value="Search" />
+                           
+                            } 
+                        </div></li>
                     <li class="col-md-1"><a href="@Url.Action("Login", "Authentication")">Login</a></li>
                     <li class="col-md-1"><a href="@Url.Action("Register", "Authentication")">Register</a></li>
                 </ul>
@@ -59,12 +66,45 @@
     </nav>
 
     <div class="container body-content">
+
         @RenderBody()
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
     </div>
+
+    <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet"/>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#SearchString').autocomplete({
+                source: function (request, response) {
+                    var autocompleteUrl = 'http://localhost:51306/api/Products/' + request.term;
+                    $.ajax({
+                        url: autocompleteUrl,
+                        type: 'GET',
+                        cache: false,
+                        dataType: 'json',
+                        success: function (json) {
+                            // call autocomplete callback method with results 
+                            response($.map(json, function (data, id) {
+                                return {
+                                    label: data.Name,
+                                    value: data.Name
+                                };
+                            }));
+                        },
+                        error: function (xmlHttpRequest, textStatus, errorThrown) {
+                            console.log('some error occured', textStatus, errorThrown);
+                        }
+                    })
+                }
+            })
+        });
+    </script>  
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

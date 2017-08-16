@@ -13,34 +13,25 @@ namespace MVC.Controllers
     {
         private IService<CategoryModel> categoryService;
         private IService<ManufacturerModel> manufacturerService;
-        private IService<SimpleProductModel> productService;
+        private IProductService productService;
 
-        public UserProductsController(IService<CategoryModel> service)
+        public UserProductsController(IService<CategoryModel> service, IService<ManufacturerModel> manufacturerService, IProductService productService)
         {
             categoryService = service;
-        }
-
-        public UserProductsController(IService<ManufacturerModel> service)
-        {
-            manufacturerService = service;
-        }
-
-        public UserProductsController(IService<SimpleProductModel> service)
-        {
-            productService = service;
+            this.manufacturerService = manufacturerService;
+            this.productService = productService;
         }
 
         // GET: UserProducts
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(String searchString)
         {
-            //CategoriesService cs = new CategoriesService();
             ViewBag.Categories = await categoryService.GetAll();
-            
-            //ManufacturerService ms = new ManufacturerService();
+           
             ViewBag.Manufacturers = await manufacturerService.GetAll();
 
-            //ProductsService ps = new ProductsService();
-            ViewBag.Products = await productService.GetAll();
+            if (!String.IsNullOrEmpty(searchString))
+                ViewBag.Products = await productService.GetAll(searchString);
+            else ViewBag.Products = await productService.GetAll();
 
             return View();
         }

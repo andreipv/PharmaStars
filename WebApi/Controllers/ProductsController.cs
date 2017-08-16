@@ -137,5 +137,35 @@ namespace WebApi.Controllers
                 return this.InternalServerError(e);
             }
         }
+
+        [HttpGet]
+        [Route ("api/products/{search}")]
+        public IHttpActionResult GetAll(String search)
+        {
+            try
+            {
+                using (var uow = new UnitOfWork())
+                {
+                    try
+                    {
+                        var entities = uow.ProductsRepo.GetAll(search);
+                        List<SimpleProductModel> models = new List<SimpleProductModel>();
+                        foreach (var entity in entities)
+                        {
+                            models.Add(ProductMapper.EntityToSimpleModel(entity));
+                        }
+                        return this.Ok(models);
+                    }
+                    catch (Exception e)
+                    {
+                        return this.BadRequest(e.ToString());
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return this.InternalServerError(e);
+            }
+        }
     }
 }
