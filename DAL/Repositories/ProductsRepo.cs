@@ -82,9 +82,22 @@ namespace DAL.Repositories
 
         public IQueryable<Product> GetAll()
         {
-
              return db.Products;
+        }
 
+        public IQueryable<Product> GetAll(double minPrice, double maxPrice)
+        {
+            return db.Products.Where(a => a.Price <= minPrice && a.Price > maxPrice);
+        }
+
+        public IQueryable<Product> GetAll(Manufacturer manufacturer)
+        {
+            return db.Products.Where(a => a.Manufacturer.Equals(manufacturer));
+        }
+
+        public IQueryable<Product> GetAll(Category category)
+        {
+            return db.Products.Where(a => a.Categories.Equals(category));
         }
     }
 }

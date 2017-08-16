@@ -36,10 +36,25 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult Get()
+        public IQueryable<ProductsModel> Get()
         {
-            try
+            var list = new List<ProductsModel>();
+
+            using(var uow = new UnitOfWork())
             {
+                foreach (var m in uow.ProductsRepo.GetAll())
+                    list.Add(ProductMapper.EntityToModel(m));
+
+                return list.AsQueryable();
+            }
+        }
+
+
+        [HttpGet]
+        public IQueryable<ProductsModel> GetAll(double minPrice, double maxPrice)
+        {
+            var list = new List<ProductsModel>();
+            using(var uow = new UnitOfWork())
                 using(var uow = new UnitOfWork())
                 {
                     try
@@ -58,7 +73,23 @@ namespace WebApi.Controllers
                 }
             }catch(Exception e)
             {
-                return this.InternalServerError(e);
+                foreach (var m in uow.ProductsRepo.GetAll(minPrice, maxPrice))
+                    list.Add(ProductMapper.EntityToModel(m));
+
+                return list.AsQueryable();
+            }
+        }
+
+        [HttpGet]
+        public IQueryable<ProductsModel> GetAll(CategoriesModel category)
+        {
+            var list = new List<ProductsModel>();
+            using (var uow = new UnitOfWork())
+            {
+                foreach (var m in uow.ProductsRepo.GetAll(CategoriesMapper.ModelToEntity(category)))
+                    list.Add(ProductMapper.EntityToModel(m));
+
+                return list.AsQueryable();
             }
         }
 
@@ -137,5 +168,6 @@ namespace WebApi.Controllers
                 return this.InternalServerError(e);
             }
         }
+
     }
 }
