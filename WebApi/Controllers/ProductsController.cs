@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using WebApi.Mapping;
 using WebApi.Models;
 
@@ -110,9 +111,9 @@ namespace WebApi.Controllers
                 return this.InternalServerError(e);
             }
         }
-
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpDelete]
-        public IHttpActionResult Delete(ProductsModel model)
+        public IHttpActionResult Delete(int Id)
         {
             try
             {
@@ -120,8 +121,13 @@ namespace WebApi.Controllers
                 {
                     try
                     {
-                        if (ModelState.IsValid)
+                        if (ModelState.IsValid) {
+                            var p=uow.ProductsRepo.Get(Id);
+                            uow.ProductsRepo.Delete(p);
                             return this.StatusCode(HttpStatusCode.NoContent);
+
+                        }
+                            
                         return this.BadRequest();
 
                     }catch(KeyNotFoundException e)
