@@ -49,7 +49,8 @@ namespace WebApi.Mapping
                 Id = product.ID,
                 Name = product.Name,
                 Manufacturer = product.Manufacturer.Name,
-                Price = product.Price
+                Price = product.Price,
+                ImgPath = product.ImgPath
             };
             model.Categories = new List<string>();
             foreach(var cat in product.Categories)
