@@ -147,6 +147,7 @@ namespace WebApi.Controllers
 
         [HttpGet]
         [Route ("api/products/{search}")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult GetAll(String search)
         {
             try

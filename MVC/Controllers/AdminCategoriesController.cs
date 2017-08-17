@@ -15,7 +15,7 @@ namespace MVC.Controllers
         {
             CategoriesService catServ = new CategoriesService();
 
-            return View(await catServ.GetAllCategories());
+            return View(await catServ.GetAll());
         }
     }
 }
