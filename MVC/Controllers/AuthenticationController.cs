@@ -11,6 +11,15 @@ namespace MVC.Controllers
 {
     public class AuthenticationController : Controller
     {
+        private IAuthenticationService service;
+
+        public AuthenticationController(IAuthenticationService service)
+        {
+            this.service = service;
+        }
+
+        public AuthenticationController() { }
+
         public ActionResult Login()
         {
             return View();
@@ -22,11 +31,9 @@ namespace MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                AuthenticationService service = new AuthenticationService();
                 try
                 {
                     string token = await service.Login(model);
-
                     Response.Cookies["user"]["token"] = token;
 
                     TempData["error"] = null;
@@ -72,7 +79,7 @@ namespace MVC.Controllers
             {
                 try
                 {
-                    AuthenticationService service = new AuthenticationService();
+                    //AuthenticationService service = new AuthenticationService();
                     await service.Register(model);
 
                     TempData["error"] = null;
@@ -104,7 +111,7 @@ namespace MVC.Controllers
             {
                 try
                 {
-                    AuthenticationService service = new AuthenticationService();
+                    //AuthenticationService service = new AuthenticationService();
                     await service.ForgotPassword(model);
 
                     TempData["error"] = null;

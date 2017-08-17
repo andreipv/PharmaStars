@@ -17,11 +17,7 @@ namespace DAL.Repositories
 
         public Product Get(int id)
         {
-
-           
                 return db.Products.Find(id);
-            
-
         }
 
         public Product Get(string name)
@@ -85,6 +81,11 @@ namespace DAL.Repositories
 
              return db.Products;
 
+        }
+
+        public IQueryable<Product> GetAll(string search = "")
+        {
+            return db.Products.Where(a => a.Name.Contains(search));
         }
     }
 }
