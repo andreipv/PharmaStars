@@ -111,8 +111,9 @@ namespace WebApi.Controllers
                 return this.InternalServerError(e);
             }
         }
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [HttpDelete]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult Delete(int Id)
         {
             try
