@@ -16,6 +16,10 @@ using Microsoft.Owin.Security.OAuth;
 using WebApi.Models;
 using WebApi.Providers;
 using WebApi.Results;
+using System.Net.Mail;
+using System.Net.Mime;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace WebApi.Controllers
 {
@@ -342,10 +346,33 @@ namespace WebApi.Controllers
             return Ok();
         }
 
+        [HttpPost]
+        [AllowAnonymous]
         [Route("ResetPassword", Name = "ResetPassword")]
-        public async Task<IHttpActionResult> ResetPassword(string id, string code)
+        public async Task<IHttpActionResult> ResetPassword([FromBody]ResetPasswordBindingModel model)
         {
-            return Ok();
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                var user = await UserManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                {
+                    return Ok();
+                }
+                var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
+                if (result.Succeeded)
+                {
+                    return Ok();
+                }
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return InternalServerError(e);
+            }
         }
 
         [AllowAnonymous]
@@ -364,14 +391,20 @@ namespace WebApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                //if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
-                //{
-                //    return BadRequest(ModelState);
-                //}
+
                 var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                var callbackUrl = Url.Route("ResetPassword", new { id = user.Id, code = code });
-                await UserManager.SendEmailAsync(user.Id, "Reset Password",
-                    "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">link</a>");
+                var callbackUrl = "http://localhost:51326/authentication/resetpassword?code=" + code;
+
+                var client = new SendGridClient("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");
+                var from = new EmailAddress("pharmastars.contact@gmail.com", "Pharma Star");
+                var subject = "Reset Password";
+                var to = new EmailAddress(user.Email, user.UserName);
+
+                var htmlContent = "<b>Changing your password?</b> <br/><br/> ";
+                htmlContent += "If you've lost your password or wish to reset it, please use the link below: <br/>";
+                htmlContent += "<a href=\"" + callbackUrl + "\">link</a>";
+                var msg = MailHelper.CreateSingleEmail(from, to, subject, "", htmlContent);
+                var response = await client.SendEmailAsync(msg);
 
                 return Ok();
             } 

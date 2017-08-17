@@ -48,4 +48,19 @@ namespace MVC.Models
         public string Email { get; set; }
     }
 
+    public class ResetPasswordViewModel
+    {
+        [Required]
+        public string Code { get; set; }
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+    }
 }

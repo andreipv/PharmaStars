@@ -28,6 +28,9 @@ namespace DAL
         [Column(TypeName = "text")]
         public string Description { get; set; }
 
+        [Column(TypeName = "text")]
+        public String ImgPath { get; set; }
+
         public virtual Manufacturer Manufacturer { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

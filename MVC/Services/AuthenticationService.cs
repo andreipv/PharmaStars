@@ -31,10 +31,10 @@ namespace MVC.Services
                 requestToken.Content.Headers.ContentType = new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded") { CharSet = "UTF-8" };
                 
                 var bearerResult = await httpClient.SendAsync(requestToken);
-                var bearerData = await bearerResult.Content.ReadAsStringAsync();
-                var bearerToken = JObject.Parse(bearerData)["access_token"].ToString();
                 if(bearerResult.IsSuccessStatusCode)
                 {
+                    var bearerData = await bearerResult.Content.ReadAsStringAsync();
+                    var bearerToken = JObject.Parse(bearerData)["access_token"].ToString();
                     return bearerToken;
                 }
                 else
@@ -78,6 +78,31 @@ namespace MVC.Services
                     RequestUri = new Uri(accountUri + "/ForgotPassword"),
                     Content = new StringContent(
                         string.Format("email={0}", model.Email)
+                    )
+                };
+                request.Content.Headers.ContentType = new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded") { CharSet = "UTF-8" };
+
+                var result = await httpClient.SendAsync(request);
+
+                if (!result.IsSuccessStatusCode)
+                {
+                    throw new Exception("Something went wrong");
+                }
+            }
+        }
+
+        public async Task ResetPassword(ResetPasswordViewModel model)
+        {
+            using (HttpClient httpClient = new HttpClient())
+            {
+                HttpRequestMessage request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Post,
+                    RequestUri = new Uri(accountUri + "/ResetPassword"),
+                    Content = new StringContent(
+                        string.Format("code={0}&email={1}&password={2}&confirmpassword={3}",
+                            model.Code, model.Email, model.Password, model.ConfirmPassword
+                        )
                     )
                 };
                 request.Content.Headers.ContentType = new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded") { CharSet = "UTF-8" };
