@@ -16,9 +16,9 @@ namespace MVC.Controllers
             
 
             ProductsService ps = new ProductsService();
-            
+            ViewBag.Products = await ps.GetAll();
 
-            return View(await ps.GetAll());
+            return View();
         }
     }
 }
