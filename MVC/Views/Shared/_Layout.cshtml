@@ -40,18 +40,16 @@
                     {
                         <li class="col-md-1"><a href="@Url.Action("Login", "Authentication")">Login</a></li>
                         <li class="col-md-1"><a href="@Url.Action("Register", "Authentication")">Register</a></li>
-                       
                     }
-
-                    <li><div id="search-form">@using (Html.BeginForm())
+                    <li>
+                        <div id="search-form">
+                            @using (Html.BeginForm("Index", "UserProducts"))
                             {
-                                @Html.TextBox("SearchString")
-                                <input class="btn-info" type="submit" value="Search" />
-                           
-                            } 
-                        </div></li>
-                    <li class="col-md-1"><a href="@Url.Action("Login", "Authentication")">Login</a></li>
-                    <li class="col-md-1"><a href="@Url.Action("Register", "Authentication")">Register</a></li>
+                                @Html.TextBox("SearchString");
+                                <input class="btn btn-default btn-sm" type="submit" value="Search" />
+                            }
+                        </div>
+                    </li>
 
                 </ul>
             </div>
@@ -66,6 +64,11 @@
             <p>&copy; @DateTime.Now.Year - PharmaStar</p>
         </footer>
     </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+    @RenderSection("scripts", required: false)
 
     <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet"/>
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
@@ -99,9 +102,5 @@
         });
     </script>  
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/jqueryval")
-    @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using WebApi.Mapping;
 using WebApi.Models;
 
@@ -140,6 +141,7 @@ namespace WebApi.Controllers
 
         [HttpGet]
         [Route ("api/products/{search}")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult GetAll(String search)
         {
             try
