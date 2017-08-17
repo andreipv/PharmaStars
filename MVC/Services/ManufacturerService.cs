@@ -11,7 +11,7 @@ using System.Web;
 
 namespace MVC.Services
 {
-    public class ManufacturerService
+    public class ManufacturerService : IService<ManufacturerModel>
     {
         readonly string manufacturerUri = "http://localhost:51306/api/manufacturermodels";
 

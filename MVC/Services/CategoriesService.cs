@@ -11,11 +11,11 @@ using System.Web;
 
 namespace MVC.Services
 {
-    public class CategoriesService
+    public class CategoriesService : IService<CategoryModel>
     {
         readonly string categoriesUri = "http://localhost:51306/api/categories";
 
-        public async Task<IList<CategoryModel>> GetAllCategories()
+        public async Task<IList<CategoryModel>> GetAll()
         {
             using (HttpClient httpClient = new HttpClient())
             {

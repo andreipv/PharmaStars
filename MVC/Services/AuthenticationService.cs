@@ -11,7 +11,7 @@ using System.Web;
 
 namespace MVC.Services
 {
-    public class AuthenticationService
+    public class AuthenticationService : IAuthenticationService
     {
         readonly string accountUri = "http://localhost:51306/api/account";
         readonly string tokenUri = "http://localhost:51306/token";
