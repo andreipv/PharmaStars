@@ -31,13 +31,39 @@ namespace MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                //AuthenticationService service = new AuthenticationService();
-                string token = await service.Login(model);
+                try
+                {
+                    string token = await service.Login(model);
+                    Response.Cookies["user"]["token"] = token;
 
-                Response.Cookies["user"]["token"] = token;
+                    TempData["error"] = null;
+                    return RedirectToAction("Index", "UserProducts");
+                } catch(Exception e)
+                {
+                    TempData["error"] = e.Message;
+                    return RedirectToAction("Login");
+                }
             }
+            else
+            {
+                TempData["error"] = "Information is invalid!";
+                return RedirectToAction("Login");
+            }
+        }
 
-            return RedirectToAction("Login");
+        public ActionResult Logout()
+        {
+            try
+            {
+                Response.Cookies["user"]["token"] = null;
+                Response.Cookies["user"].Expires = DateTime.Now.Subtract(TimeSpan.FromDays(2));
+
+                return RedirectToAction("Login");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Login");
+            }
         }
 
         public ActionResult Register()
@@ -56,16 +82,20 @@ namespace MVC.Controllers
                     //AuthenticationService service = new AuthenticationService();
                     await service.Register(model);
 
+                    TempData["error"] = null;
                     return RedirectToAction("Login");
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    TempData["error"] = e.Message;
                     return RedirectToAction("Register");
                 }
-                
             }
-
-            return RedirectToAction("Register");
+            else
+            {
+                TempData["error"] = "Information is invalid!";
+                return RedirectToAction("Register");
+            }
         }
 
         public ActionResult ForgotPassword()
@@ -84,16 +114,55 @@ namespace MVC.Controllers
                     //AuthenticationService service = new AuthenticationService();
                     await service.ForgotPassword(model);
 
+                    TempData["error"] = null;
                     return RedirectToAction("Login");
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    TempData["error"] = e.Message;
                     return RedirectToAction("ForgotPassword");
                 }
-
             }
+            else
+            {
+                TempData["error"] = "Information is invalid!";
+                return RedirectToAction("ForgotPassword");
+            }
+        }
 
-            return RedirectToAction("ForgotPassword");
+        public ActionResult ResetPassword(string code)
+        {
+            TempData["error"] = null;
+
+            ViewBag.Code = code;
+            return View();
+        }
+
+        [ActionName("ResetPassword"), HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ResetPasswordPost(ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    AuthenticationService service = new AuthenticationService();
+                    await service.ResetPassword(model);
+
+                    TempData["error"] = null;
+                    return RedirectToAction("Login");
+                }
+                catch (Exception e)
+                {
+                    TempData["error"] = e.Message;
+                    return RedirectToAction("Login");
+                }
+            }
+            else
+            {
+                TempData["error"] = "Information is invalid!";
+                return RedirectToAction("ForgotPassword");
+            }
         }
     }
 }
