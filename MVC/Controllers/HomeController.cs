@@ -10,8 +10,7 @@ namespace MVC.Controllers
     {
         public ActionResult Index()
         {
-            RedirectToAction("Index", "UserProducts");
-            return View();
+            return RedirectToAction("Index", "UserProducts");
         }
 
         public ActionResult About()

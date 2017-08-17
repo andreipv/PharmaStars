@@ -51,6 +51,15 @@ body {
     font-family: 'Archivo Black', sans-serif;
     font-size: 30px;
     color: #6DBDEB;
-}   
+}
 
-myClass {}
+footer {
+    background-color: #E4F3FB;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding-top: 10px;
+    width: 100%;
+    text-align: center;
+}

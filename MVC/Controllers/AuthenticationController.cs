@@ -44,6 +44,21 @@ namespace MVC.Controllers
             }
         }
 
+        public ActionResult Logout()
+        {
+            try
+            {
+                Response.Cookies["user"]["token"] = null;
+                Response.Cookies["user"].Expires = DateTime.Now.Subtract(TimeSpan.FromDays(2));
+
+                return RedirectToAction("Login");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Login");
+            }
+        }
+
         public ActionResult Register()
         {
             return View();
@@ -73,8 +88,7 @@ namespace MVC.Controllers
             {
                 TempData["error"] = "Information is invalid!";
                 return RedirectToAction("Register");
-            }       
-            
+            }
         }
 
         public ActionResult ForgotPassword()
