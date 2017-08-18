@@ -31,7 +31,7 @@ namespace WebApi.Controllers
                     return result_;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return new HttpResponseMessage(HttpStatusCode.InternalServerError);
             }

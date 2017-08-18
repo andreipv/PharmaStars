@@ -127,9 +127,10 @@ namespace WebApi.Controllers
                 return this.InternalServerError(e);
             }
         }
-
+        
         [HttpDelete]
-        public IHttpActionResult Delete(ProductsModel model)
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult Delete(int Id)
         {
             try
             {
@@ -137,8 +138,13 @@ namespace WebApi.Controllers
                 {
                     try
                     {
-                        if (ModelState.IsValid)
+                        if (ModelState.IsValid) {
+                            var p=uow.ProductsRepo.Get(Id);
+                            uow.ProductsRepo.Delete(p);
                             return this.StatusCode(HttpStatusCode.NoContent);
+
+                        }
+                            
                         return this.BadRequest();
 
                     }catch(KeyNotFoundException e)
@@ -158,6 +164,7 @@ namespace WebApi.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         [Route ("api/products/{search}")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult GetAll(String search)
         {
             try

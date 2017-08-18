@@ -46,7 +46,7 @@ namespace DAL.Repositories
                 throw new KeyNotFoundException();
 
             db.Products.Remove(product);
-            db.Entry(product).State = System.Data.Entity.EntityState.Modified;
+         
             db.SaveChanges();
 
             return product;

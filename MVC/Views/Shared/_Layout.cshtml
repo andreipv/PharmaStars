@@ -40,18 +40,16 @@
                     {
                         <li class="col-md-1"><a href="@Url.Action("Login", "Authentication")">Login</a></li>
                         <li class="col-md-1"><a href="@Url.Action("Register", "Authentication")">Register</a></li>
-                       
                     }
-
-                    <li><div id="search-form">@using (Html.BeginForm())
+                    <li>
+                        <div id="search-form">
+                            @using (Html.BeginForm("Index", "UserProducts"))
                             {
-                                @Html.TextBox("SearchString")
-                                <input class="btn-info" type="submit" value="Search" />
-                           
-                            } 
-                        </div></li>
-                    <li class="col-md-1"><a href="@Url.Action("Login", "Authentication")">Login</a></li>
-                    <li class="col-md-1"><a href="@Url.Action("Register", "Authentication")">Register</a></li>
+                                @Html.TextBox("SearchString");
+                                <input class="btn btn-default btn-sm" type="submit" value="Search" />
+                            }
+                        </div>
+                    </li>
 
                 </ul>
             </div>
@@ -72,10 +70,9 @@
     @Scripts.Render("~/bundles/jqueryval")
     @RenderSection("scripts", required: false)
 
-
-    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>
 
     <script>
         $(document).ready(function () {

@@ -35,8 +35,8 @@ namespace MVC.Controllers
         public async Task<ActionResult> Edit(CategoryModel category)
         {
             await service.Put(category.ID, category);
-
             return RedirectToAction("Index");
+
         }
     }
 }

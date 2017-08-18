@@ -6,9 +6,7 @@
         type: 'DELETE',
         data: { id: id },
         success: function (data) {
-
             location.reload();
-
         }
     });
 })
