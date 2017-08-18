@@ -52,45 +52,24 @@ namespace WebApi.Controllers
                     return Ok(ManufacturerMapper.EntityToModel(man));
                 }
             }
-            
-
         }
 
-        [ResponseType(typeof(void))]
-
-        [System.Web.Http.HttpPut]
-        public IHttpActionResult PutManufacturerModel(int id, [FromBody] ManufacturerModel manufacturerModel)
+        [HttpPut]
+        public IHttpActionResult PutManufacturerModel(int id, [FromBody] ManufacturerModel model)
         {
-            try {
-
-                using (var repo = new UnitOfWork())
-                {
-                    try { 
-
-                    if (!ModelState.IsValid)
-                    {
-                        return BadRequest(ModelState);
-                    }
-                    repo.ManufacturerRepo.Update(id, ManufacturerMapper.ModelToEntity(manufacturerModel));
-                    return StatusCode(HttpStatusCode.NoContent);
-                        }
-                    catch
-                    {
-                        return BadRequest();
-                    }
-                }
-
-               
-            }
-            catch(Exception e)
+            try
             {
-                return this.InternalServerError(e);
-
-
+                using (var uow = new UnitOfWork())
+                {
+                    var u = uow.ManufacturerRepo.Update(id, ManufacturerMapper.ModelToEntity(model));
+                    return Ok(ManufacturerMapper.EntityToModel(u));
+                }
             }
-
-
+            catch (Exception e)
+            {
+                return InternalServerError(e);
             }
+        }
 
 
         [HttpPost]

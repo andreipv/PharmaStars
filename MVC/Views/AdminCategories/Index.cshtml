@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "Categories";
+    Layout = "~/Views/Shared/_LayoutAdminHome.cshtml";
+}
+
+<br/>
+
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h3 id="myModalLabel">Delete</h3>
+    </div>
+    <div class="modal-body">
+        <p></p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button data-dismiss="modal" class="btn red" id="btnYes">Confirm</button>
+    </div>
+</div>
+<table class="table table-striped table-hover table-users">
+    <thead>
+        <tr>
+            <th>Category</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var category in ViewBag.Categories)
+        {
+        <tr>
+            <td class="hidden-phone">@category.Name</td>
+            
+            <td><a class="btn mini blue-stripe" href="http://localhost:51326/AdminCategories/Edit/@category.ID">Edit</a></td>
+
+            <td><a href="#" class="confirm-delete btn mini red-stripe" role="button" data-title="johnny" data-id="1">Delete</a></td>
+        </tr>
+        }
+    </tbody>
+
+</table>
+
+
+
+
+
+
+

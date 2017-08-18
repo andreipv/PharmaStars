@@ -13,5 +13,9 @@ namespace MVC.Services
 
         Task<IList<SimpleProductModel>> GetAll(String search);
 
+        Task<SimpleProductModel> Get(int id);
+
+        Task Post(FullProductModel model);
+
     }
 }

@@ -7,6 +7,8 @@ namespace WebApi.Models
 {
     public class CategoriesModel
     {
+        public CategoriesModel() { }
+
         public int ID;
 
         public string Name;

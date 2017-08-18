@@ -57,10 +57,7 @@ namespace DAL.Repositories
         {
             
                 Manufacturer findManufacturer = db.Manufacturers.Find(id);
-                if (findManufacturer == null)
-                {
-                throw new KeyNotFoundException();
-                }
+               
                 findManufacturer.Name = manufacturer.Name;
                 findManufacturer.Adress = manufacturer.Adress;
                 

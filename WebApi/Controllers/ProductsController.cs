@@ -15,6 +15,7 @@ namespace WebApi.Controllers
     public class ProductsController : ApiController
     {
         [HttpGet]
+        [Route ("api/Products/Get/{id}")]
         public IHttpActionResult Get(int id)
         {
             try
@@ -23,7 +24,7 @@ namespace WebApi.Controllers
                 {
                     try
                     {
-                        return this.Ok(ProductMapper.EntityToModel(uow.ProductsRepo.Get(id)));
+                        return this.Ok(ProductMapper.EntityToSimpleModel(uow.ProductsRepo.Get(id)));
                     }catch(Exception e)
                     {
                         return this.BadRequest(e.ToString());
@@ -64,49 +65,64 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult Post(ProductsModel model)
+        public IHttpActionResult Post(FullProductModel model)
         {
             try
             {
-                using(var uow = new UnitOfWork())
+                using (var uow = new UnitOfWork())
                 {
                     if (ModelState.IsValid)
+                    {
+                        var entity = ProductMapper.FullModelToEntity(model);
+                        entity.ID_MRF = model.IDManufacturer;
+
+                        if (model.Categories != null)
+                        {
+                            entity.Categories = new List<Category>();
+                            foreach (var id in model.Categories)
+                            {
+                                entity.Categories.Add(uow.CategoriesRepo.Get(id));
+                            }
+                        }
+
                         return this.Ok(ProductMapper.EntityToModel
-                            (uow.ProductsRepo.Add(ProductMapper.ModelToEntity(model))));
+                            (uow.ProductsRepo.Add(entity)));
+                    }
                     else
                         return this.BadRequest();
                 }
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 return this.InternalServerError(e);
             }
         }
 
         [HttpPut]
-        public IHttpActionResult Put(int id, ProductsModel model)
+        public IHttpActionResult Put(FullProductModel model)
         {
             try
             {
-                using(var uow = new UnitOfWork())
+                using (var uow = new UnitOfWork())
                 {
-                    try
+                    if (ModelState.IsValid)
                     {
-                        if (ModelState.IsValid)
-                            return this.Ok(ProductMapper.EntityToModel
-                                (uow.ProductsRepo.Update(id, ProductMapper.ModelToEntity(model))));
+                        var entity = ProductMapper.FullModelToEntity(model);
+                        entity.Manufacturer = uow.ManufacturerRepo.Get(model.IDManufacturer);
+
+                        entity.Categories = new List<Category>();
+                        foreach (var id in model.Categories)
+                        {
+                            entity.Categories.Add(uow.CategoriesRepo.Get(id));
+                        }
+                        return this.Ok(ProductMapper.EntityToModel
+                            (uow.ProductsRepo.Update(entity.ID, entity)));
+                    }
+                    else
                         return this.BadRequest();
-
-                    }catch(KeyNotFoundException e)
-                    {
-                        return this.BadRequest(e.ToString());
-                    }
-                    catch(Exception e)
-                    {
-                        return this.BadRequest(e.ToString());
-                    }
                 }
-
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 return this.InternalServerError(e);
             }
@@ -145,6 +161,7 @@ namespace WebApi.Controllers
             }
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         [Route ("api/products/{search}")]
         [EnableCors(origins: "*", headers: "*", methods: "*")]

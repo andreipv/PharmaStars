@@ -70,34 +70,28 @@
     @Scripts.Render("~/bundles/jqueryval")
     @RenderSection("scripts", required: false)
 
-    <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet"/>
-    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-    <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>
 
     <script>
         $(document).ready(function () {
             $('#SearchString').autocomplete({
                 source: function (request, response) {
-                    var autocompleteUrl = 'http://localhost:51306/api/Products/' + request.term;
                     $.ajax({
-                        url: autocompleteUrl,
-                        type: 'GET',
-                        cache: false,
-                        dataType: 'json',
-                        success: function (json) {
-                            // call autocomplete callback method with results 
-                            response($.map(json, function (data, id) {
-                                return {
-                                    label: data.Name,
-                                    value: data.Name
-                                };
-                            }));
+                        url: "http://localhost:51306/api/Products/" + request.term,
+                        type: "GET",
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { value: item.Name }
+                            }))
                         },
-                        error: function (xmlHttpRequest, textStatus, errorThrown) {
-                            console.log('some error occured', textStatus, errorThrown);
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(textStatus);
                         }
-                    })
-                }
+                    });
+                },
+                minLength: 1 
             })
         });
     </script>  
