@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace WebApi.Models
+{
+    public class CategoriesModel
+    {
+        public CategoriesModel() { }
+
+        public int ID;
+
+        public string Name;
+    }
+}

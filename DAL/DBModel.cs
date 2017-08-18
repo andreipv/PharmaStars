@@ -14,7 +14,6 @@ namespace DAL
 
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Manufacturer> Manufacturers { get; set; }
-        public virtual DbSet<ProdCateg_Assoc> ProdCateg_Assoc { get; set; }
         public virtual DbSet<Product> Products { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -22,12 +21,6 @@ namespace DAL
             modelBuilder.Entity<Category>()
                 .Property(e => e.Name)
                 .IsUnicode(false);
-
-            modelBuilder.Entity<Category>()
-                .HasMany(e => e.ProdCateg_Assoc)
-                .WithRequired(e => e.Category)
-                .HasForeignKey(e => e.ID_CATEG)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Manufacturer>()
                 .Property(e => e.Name)
@@ -51,10 +44,14 @@ namespace DAL
                 .IsUnicode(false);
 
             modelBuilder.Entity<Product>()
-                .HasMany(e => e.ProdCateg_Assoc)
-                .WithRequired(e => e.Product)
-                .HasForeignKey(e => e.ID_PROD)
-                .WillCascadeOnDelete(false);
+                .HasMany(e => e.Categories)
+                .WithMany(e => e.Products)
+                .Map(cs =>
+                {
+                    cs.MapLeftKey("ID_CATEG");
+                    cs.MapRightKey("ID_PROD");
+                    cs.ToTable("Prod_Categ_Assoc");
+                });
         }
     }
 }

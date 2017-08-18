@@ -1,0 +1,41 @@
+﻿@model MVC.Models.LoginModel
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<div class="container body-content">
+    <div class="container">
+        <br /><br />
+        <div class="col-md-4 col-md-offset-4">
+            @using (Html.BeginForm("Login", "Authentication", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    @Html.LabelFor(m => m.UserName, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.UserName, null, new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Password, null, new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default">Login</button>
+                    &nbsp; &nbsp; <a href="@Url.Action("ForgotPassword", "Authentication")">I forgot my password</a>
+                </div>
+            }
+            @if (TempData["error"] != null)
+            {
+                <p class="text-danger">
+                    @TempData["error"].ToString()
+                </p>
+            }
+
+            
+        </div>
+    </div>
+</div>

@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "Products";
+}
+
+@Scripts.Render("~/Scripts/FilterProducts.js")
+
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <h4>Categories</h4>
+            <div class="form-group">
+                <form id="myForm">
+                    @foreach (var category in ViewBag.Categories)
+                    {
+                        <label class="checkbox" for="cat+@category.Name">
+                            <input type="checkbox" id="cat+@category.Name" onclick="getProducts()"/>
+                            @category.Name
+                        </label>
+                    }
+                </form>
+            </div>
+
+            <h4>Manufacturers</h4>
+            <div class="form-group">
+                @foreach (var manufacturer in ViewBag.Manufacturers)
+                {
+                    <label class="checkbox" for="man+@manufacturer.Name" >
+                        <input type="checkbox" id="man+@manufacturer.Name" onclick="getProducts()"/>
+                        @manufacturer.Name
+                    </label>
+                }
+            </div>
+        </div>
+
+        <div class="col-md-9" id="products">
+            @foreach (var product in ViewBag.Products)
+            {
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@product.Name</h3>
+                        </div>
+                        <div class="panel-body fixed-panel">
+                            <img style='width:100%' src="http://localhost:51306/api/Images/@product.Id">
+                        </div>
+                        <div class="panel-footer">
+                            <b>Price:</b> @product.Price <br />
+                            <b>Manufacturer:</b> @product.Manufacturer <br />
+                            <b>Categories:</b> <br />
+                                @foreach(var cat in @product.Categories)
+                                {
+                                    @cat<br />
+                                }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

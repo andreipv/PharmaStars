@@ -16,6 +16,10 @@ using Microsoft.Owin.Security.OAuth;
 using WebApi.Models;
 using WebApi.Providers;
 using WebApi.Results;
+using System.Net.Mail;
+using System.Net.Mime;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace WebApi.Controllers
 {
@@ -321,16 +325,18 @@ namespace WebApi.Controllers
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]
-        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
+        public async Task<IHttpActionResult> Register([FromBody]RegisterBindingModel model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser() { UserName = model.UserName, Email = model.Email };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+
+            UserManager.AddToRole(user.Id, "User");
 
             if (!result.Succeeded)
             {
@@ -338,6 +344,75 @@ namespace WebApi.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("ResetPassword", Name = "ResetPassword")]
+        public async Task<IHttpActionResult> ResetPassword([FromBody]ResetPasswordBindingModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                var user = await UserManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                {
+                    return Ok();
+                }
+                var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
+                if (result.Succeeded)
+                {
+                    return Ok();
+                }
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return InternalServerError(e);
+            }
+        }
+
+        [AllowAnonymous]
+        [Route("ForgotPassword")]
+        public async Task<IHttpActionResult> ForgotPassword([FromBody]ForgotPasswordBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var user = await UserManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = "http://localhost:51326/authentication/resetpassword?code=" + code;
+
+                var client = new SendGridClient("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");
+                var from = new EmailAddress("pharmastars.contact@gmail.com", "Pharma Star");
+                var subject = "Reset Password";
+                var to = new EmailAddress(user.Email, user.UserName);
+
+                var htmlContent = "<b>Changing your password?</b> <br/><br/> ";
+                htmlContent += "If you've lost your password or wish to reset it, please use the link below: <br/>";
+                htmlContent += "<a href=\"" + callbackUrl + "\">link</a>";
+                var msg = MailHelper.CreateSingleEmail(from, to, subject, "", htmlContent);
+                var response = await client.SendEmailAsync(msg);
+
+                return Ok();
+            } 
+            catch(Exception e)
+            {
+                return InternalServerError(e);
+            }
+            
         }
 
         // POST api/Account/RegisterExternal

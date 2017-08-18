@@ -11,7 +11,7 @@ namespace DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Product()
         {
-            ProdCateg_Assoc = new HashSet<ProdCateg_Assoc>();
+            Categories = new HashSet<Category>();
         }
 
         public int ID { get; set; }
@@ -28,9 +28,12 @@ namespace DAL
         [Column(TypeName = "text")]
         public string Description { get; set; }
 
+        [Column(TypeName = "text")]
+        public String ImgPath { get; set; }
+
         public virtual Manufacturer Manufacturer { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProdCateg_Assoc> ProdCateg_Assoc { get; set; }
+        public virtual ICollection<Category> Categories { get; set; }
     }
 }
