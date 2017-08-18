@@ -1,4 +1,5 @@
-﻿using MVC.Services;
+﻿using MVC.Models;
+using MVC.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +11,32 @@ namespace MVC.Controllers
 {
     public class AdminCategoriesController : Controller
     {
+        IService<CategoryModel> service;
+
+        public AdminCategoriesController(IService<CategoryModel> service)
+        {
+            this.service = service;
+        }
+
         // GET: AdminCategories
         public async Task<ActionResult> Index()
         {
-            CategoriesService catServ = new CategoriesService();
+            ViewBag.Categories = await service.GetAll();
+            return View();
+        }
 
-            return View(await catServ.GetAllCategories());
+        [HttpGet]
+        public async Task<ActionResult> Edit(int id)
+        {
+            return View(await service.Get(id));
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> Edit(CategoryModel category)
+        {
+            await service.Put(category.ID, category);
+
+            return RedirectToAction("Index");
         }
     }
 }

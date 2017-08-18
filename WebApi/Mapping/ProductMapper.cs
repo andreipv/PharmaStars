@@ -36,7 +36,7 @@ namespace WebApi.Mapping
                 Manufacturer = product.Manufacturer,
                 Price = product.Price,
                 Quantity = product.Quantity,
-                Categories = product.Categories,
+                //Categories = product.Categories,
                 Description = product.Description
             };
             return model;
@@ -58,6 +58,22 @@ namespace WebApi.Mapping
                 model.Categories.Add(cat.Name);
             }
             return model;
+        }
+
+        public static Product FullModelToEntity(FullProductModel product)
+        {
+            Product entity = new Product()
+            {
+                ID = product.Id,
+                Name = product.Name,
+                ID_MRF = product.IDManufacturer,
+                Description = product.Description,
+                Price = product.Price,
+                ImgPath = product.ImgPath,
+                Quantity = product.Quantity
+            };
+
+            return entity;
         }
     }
 }

@@ -88,19 +88,18 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
-        public IHttpActionResult Put(int id, CategoriesModel model)
+        public IHttpActionResult Put(int id, [FromBody]CategoriesModel model)
             {
                 try
                 {
                     using (var uow = new UnitOfWork())
                     {
                         return this.Ok(uow.CategoriesRepo.Update(id, CategoriesMapper.ModelToEntity(model)));
-                  
                     }
                 }
                 catch (Exception ex)
                 {
-                    //to do log this
+                    
                     return this.InternalServerError(ex);
                 }
             }

@@ -8,6 +8,9 @@ namespace MVC.Services
 {
     public interface IService<T>
     {
-        Task<IList<T>> GetAll();
+        Task<IEnumerable<T>> GetAll();
+
+        Task<T> Get(int id);
+        Task Put(int id, T model);
     }
 }

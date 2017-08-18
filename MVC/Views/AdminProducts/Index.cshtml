@@ -1,0 +1,46 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAdminHome.cshtml";
+}
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Add New Product" , "Add")
+</p>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-9" id="products">
+            @foreach (var product in ViewBag.Products)
+            {
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@product.Name</h3>
+                        </div>
+                        <div class="panel-body fixed-panel">
+                            <img style='width:100%' src="http://localhost:51306/api/Images/@product.Id">
+                        </div>
+                        <div class="panel-footer">
+                            <b>Price:</b> @product.Price <br />
+                            <b>Manufacturer:</b> @product.Manufacturer <br />
+                            <b>Categories:</b> <br />
+                            @foreach (var cat in @product.Categories)
+                            {
+                                @cat<br />
+                            }
+                        </div>
+                    </div>
+                    <input id="DeleteProdBtn" class="btn btn-danger" type="button"
+                           value="Delete" data-id="@product.Id" />
+                    <button name="UpdateProduct">Update</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
